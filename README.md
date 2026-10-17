@@ -23,7 +23,10 @@
 - [Overview](#overview)
 - [The Problem](#the-problem)
 - [System Architecture](#system-architecture)
+- [System Design & UML](#system-design--uml)
 - [Key Features](#key-features)
+-  [Hardware Components](#hardware-components)
+- [Experimental Results](#experimental-results)
 - [Technology Stack](#technology-stack)
 - [Android Application](#android-application)
 - [Repository Structure](#repository-structure)
@@ -62,6 +65,22 @@ flowchart TD
 
 The diagram provides a high-level overview. The ESP8266 acts as a WebSocket server, transmitting structured JSON data directly to the Android app, which then queries Firestore to map the sensor to a specific hospital room.
 
+## System Design & UML
+
+The system was modeled using UML to ensure clear interactions between the nurse, the hardware (Arduino/Sensors), and the database. 
+
+### Use Case Diagram
+![Use Case Diagram](docs/use_case.png)
+*Shows the main interactions: Activating the sensor, viewing solutions list, and receiving notifications.*
+
+### Class Diagram
+![Class Diagram](docs/class_diagram.png)
+*Defines the object-oriented structure between Nurse, Arduino, Piezoelectric Sensor, and the Database.*
+
+### Sequence Diagram
+![Sequence Diagram](docs/sequence_diagram.png)
+*Illustrates the real-time data flow from droplet detection to the nurse's mobile notification.*
+
 ## Key Features
 
 - **Real-time Detection:** Monitors droplet vibrations using a piezoelectric sensor amplified by an AD620 circuit.
@@ -69,6 +88,19 @@ The diagram provides a high-level overview. The ESP8266 acts as a WebSocket serv
 - **Cloud Storage:** Android app receives JSON, maps the sensor to a room number, and stores it in **Firebase Firestore**.
 - **Nurse-Centric UI:** Android app features real-time notifications, active/stopped solutions lists, and a profile management interface.
 - **High Accuracy:** Achieved a detection accuracy of **95.6%** across 50+ hardware trials with a latency of **<5 seconds**.
+  
+## Hardware Components
+
+The hardware setup consists of the following key components:
+
+| Component | Function |
+|---|---|
+| **Piezoelectric Disc Element (27mm)** | Detects the vibrations caused by IV fluid droplets. |
+| **AD620 Instrumentation Amplifier** | Amplifies the weak electrical signals from the sensor. |
+| **Resistors (5.6MΩ, 10kΩ, 2.2kΩ)** | Used to adjust the gain of the AD620 and ensure proper voltage levels. |
+| **Arduino Uno R3** | Processes the amplified signal, applies a moving-average filter, and formats the data into JSON. |
+| **ESP8266 Wi-Fi Module** | Acts as a WebSocket server broadcasting the JSON data to the Android app. |
+
 
 ## Technology Stack
 
@@ -119,7 +151,10 @@ IOT-MSIIA/
 ├── gradle/
 ├── docs/
 │   ├── iot_msiia_logo.png
-│   └── screenshots/
+│   ├── app_ui.jpeg
+│   ├── use_case.png
+│   ├── class_diagram.png
+│   └── sequence_diagram.png
 ├── build.gradle.kts
 ├── settings.gradle.kts
 ├── gradle.properties
@@ -155,6 +190,15 @@ The structure above represents the Android project and documentation. Add the ha
 5. Build and run the application on a compatible Android device or emulator.
 
 **Note:** Running the Android application does not, by itself, reproduce the complete hardware monitoring workflow. The corresponding hardware, firmware, and service configuration are required for end-to-end operation.
+
+## Experimental Results
+
+The system was tested extensively to evaluate its reliability and performance:
+
+- **Detection Accuracy:** Achieved **95.6%** accuracy across 50+ hardware trials.
+- **Latency:** Sensor-to-app response time was under **5 seconds**.
+- **Integration Testing:** 20 real integration tests were conducted; 100% of data packets were received without errors.
+- **Failure Analysis:** 3 simulated failures occurred due to unstable Wi-Fi, not hardware or logic faults, demonstrating the robustness of the core pipeline.
 
 ## Usability Study
 
