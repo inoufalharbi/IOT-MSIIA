@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "161639620825",
+    "project_id": "iot-msiia",
+    "storage_bucket": "iot-msiia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161639620825:android:95d83b6a482dc4350c9ec8",
+        "android_client_info": {
+          "package_name": "com.example.iot_msiia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS7O390La79qRR9y0A64qNkw1JObDmAws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
